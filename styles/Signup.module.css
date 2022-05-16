@@ -1,4 +1,16 @@
+
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .container{
+    display: flex;
 
 }
 
@@ -6,12 +18,18 @@
 
 }
 
-.login {
-
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 1.8rem;
 }
 
-.content {
-
+.signup > * {
+    width: 100%;
 }
 
 .title{
@@ -26,7 +44,35 @@
 
 }
 
-.form_input{
-
+.form_input {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
+.form_input input{
+    max-width: 280px;
+    padding: 8px 14px;
+    outline: none;
+    color: var(--primary-dark-color);
+    background-color: var(--secondary-dark-bg);
+    border: 1px solid var(--primary-dark-bg);
+    border-radius: 6px;
+}
+
+.form_input input::placeholder{
+    color: var(--primary-dark-color-op-65);
+}
+
+.button_box button {
+    background-color: var(--secondary-dark-bg);
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: inherit;
+  }
+
+.button_box button:hover {
+    background-color: var(--secondary-dark-bg-hover);
+  }
