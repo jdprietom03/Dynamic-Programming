@@ -88,3 +88,17 @@
 .button_box button:hover {
     background-color: var(--secondary-dark-bg-hover);
   }
+
+.error {
+    color: var(--error-color);
+    max-width: 350px;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    display: flex;
+}
+
+.form_input a {
+    color: var(--primary-dark-color);
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -8,6 +8,7 @@
   --primary-dark-bg-op-70: #0d0d36cc;
   --secondary-dark-bg: #191942;
   --secondary-dark-bg-hover: #1e1e49;
+  --error-color: #b11414;
 }
 
 * {

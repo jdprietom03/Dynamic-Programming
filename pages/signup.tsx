@@ -1,15 +1,30 @@
 import { Fragment } from "react";
 import Head from "next/head";
 import classes from "./../styles/Signup.module.css";
-import { FormEvent, useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import { gql, useMutation } from '@apollo/client'
-import { getErrorMessage } from '../lib/form'
+import { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { gql, useMutation } from "@apollo/client";
+import { getErrorMessage } from "../lib/form";
+import Loader from "../components/loader/Loader";
 
 const SignUpMutation = gql`
-  mutation SignUpMutation($username: String!, $password: String!, $name: String!, $last_name: String!, $email: String!) {
-    signUp(input: { username: $username, password: $password, last_name: $last_name, name: $name, email: $email }) {
+  mutation SignUpMutation(
+    $username: String!
+    $password: String!
+    $name: String!
+    $last_name: String!
+    $email: String!
+  ) {
+    signUp(
+      input: {
+        username: $username
+        password: $password
+        last_name: $last_name
+        name: $name
+        email: $email
+      }
+    ) {
       user {
         user_name
         name
@@ -18,42 +33,90 @@ const SignUpMutation = gql`
       }
     }
   }
-`
+`;
+
+interface ErrorMessage {
+  name?: string;
+  lastname?: string;
+  username?: string;
+  password?: string;
+  response?: string;
+}
 
 export default function SignUp() {
-  const [signUp] = useMutation(SignUpMutation)
-  const [errorMsg, setErrorMsg] = useState()
-  const router = useRouter()
+  const [signUp] = useMutation(SignUpMutation);
+  const [errorMsg, setErrorMsg] = useState<ErrorMessage>({});
+  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
+
+    const currentTarget = event.currentTarget as HTMLFormElement;
+    const { elements } = currentTarget;
+    const usernameElement = elements.namedItem("username") as HTMLInputElement;
+    const passwordElement = elements.namedItem("password") as HTMLInputElement;
+    const nameElement = elements.namedItem("name") as HTMLInputElement;
+    const lastnameElement = elements.namedItem("last_name") as HTMLInputElement;
+
+    const validations: {[key: string]: string} = {};
+
+    const username = usernameElement.value;
+    const password = passwordElement.value;
+    const name = nameElement.value;
+    const lastname = lastnameElement.value;
+
+    //Math username only accept letters and numbers
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!usernameRegex.test(username)) 
+      validations["username"] = "Username must only contain letters and numbers";
     
-    const currentTarget   = event.currentTarget as  HTMLFormElement
-    const { elements } = currentTarget
-    const usernameElement = elements.namedItem("username") as HTMLInputElement
-    const passwordElement = elements.namedItem("password") as HTMLInputElement
-    const nameElement = elements.namedItem("name") as HTMLInputElement
-    const lastnameElement = elements.namedItem("lastname") as HTMLInputElement
+    const nameRegex = /^[a-zA-Z]+$/;
+    if (!nameRegex.test(name))
+      validations["name"] = "Name must only contain letters";
+    if(!nameRegex.test(lastname))
+      validations["last_name"] = "Last name must only contain letters";
+
+    //Password must have one symbol, one uppercase letter and numbers 
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    if (!passwordRegex.test(password))
+      validations["password"] = "Password must have at least 8 characters, one uppercase letter and one symbol";
+
+    if(Object.keys(validations).length > 0) {
+      setErrorMsg({ ...validations });
+      return;
+    }
 
     try {
-        await signUp({
-            variables: {
-              username: usernameElement.value,
-              password: passwordElement.value,
-              name: nameElement.value,
-              last_name: lastnameElement.value,
-              email: "",
+      setLoading(true);
+      const response = await signUp({
+        variables: {
+          username: usernameElement.value,
+          password: passwordElement.value,
+          name: nameElement.value,
+          last_name: lastnameElement.value,
+          email: "",
         },
-    })
-    console.log("Accepted! Status 202")
+      });
+
+      if (response.data.signUp.user) {
+        // router.push("/");
+        console.log("User created: ", response.data.signUp.user);
+        setLoading(false);
+        return;
+      }else{
+        setErrorMsg({ response: response.data.signUp.user });
+        setLoading(false);
+      }
+      console.log("Accepted! Status 202");
       //router.push('/')
     } catch (error) {
-      console.log("Sending data ", error)
-      setErrorMsg(getErrorMessage(error))
+      console.log("Sending data ", error);
+      setErrorMsg({ response: getErrorMessage(error) });
     }
-  }
-
-
+  };
+  console.log(errorMsg);
   return (
     <Fragment>
       <Head>
@@ -107,74 +170,111 @@ export default function SignUp() {
           href="https://dynamicprogrammingcoders.com/signup"
         />
       </Head>
-      <main>
+      <main className={classes.main}>
         <div className={classes.container}>
-          <div className={classes.content}>
-            <h1>Sign Up</h1>
-            <p>Sign up for the Dynamic Programming Coders platform.</p>
-            <div className={classes.login}>
-              <div className={classes.content}>
-                <div className={classes.title}>
-                  <h2>¡Registrate aquí!</h2>
-                </div>
-                  <div className={classes.description}>
-                    Crea tu usuario institucional para poder usar nuestros servicios.
+          <div className={classes.signup}>
+            <div className={classes.content}>
+              <div className={classes.title}>
+                <h2>Sign Up!</h2>
+              </div>
+              <div className={classes.description}>
+                Sign up for the Dynamic Programming Coders platform.
+              </div>
+              {
+                errorMsg.response && (
+                  <div className={classes.error}>
+                    {errorMsg.response}
                   </div>
-              </div>
-              <div className={classes.form}>
-              <form onSubmit={handleSubmit} className={classes.form}>
-                    <div className={classes.form_input}>
-                      <label htmlFor="usuario">Usuario</label>
-                      <input
-                        type="text"
-                        name="username"
-                        required={true}
-                        pattern="[A-Za-z]+"
-                        placeholder="Nombre de usuario"
-                        autoComplete="off"
-                      />
-                    </div>
-                    <div className={classes.form_input}>
-                      <label htmlFor="clave">Contraseña</label>
-                      <input
-                        type="password"
-                        name="password"
-                        required={true}
-                        placeholder="Contraseña"
-                      />
-                    </div>
-                    <div className={classes.form_input}>
-                      <label htmlFor="nombre">Nombre</label>
-                      <input
-                        type="text"
-                        name="name"
-                        pattern="[a-zA-Z]+"
-                        required={true}
-                        placeholder="Nombre"
-                      />
-                    </div>
-
-                    <div className={classes.form_input}>
-                      <label htmlFor="apellido">Apellido</label>
-                      <input
-                        type="text"
-                        name="lastname"
-                        pattern="[a-zA-Z]+"
-                        required={true}
-                        placeholder="Apellido"
-                      />
-                    </div>
-                    <div className={classes.form_submit}>
-                      <div className="button_box">
-                        <button type="submit">
-                          <span>Ingresar</span>
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-              </div>
+                )
+              }
             </div>
+            <div className={classes.form}>
+              <form onSubmit={handleSubmit} className={classes.form}>
+                <div className={classes.form_input}>
+                  <label htmlFor="name">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required={true}
+                    placeholder="Name"
+                    autoComplete="off"
+                  />
+                  {
+                    errorMsg.name && (
+                      <div className={classes.error}>
+                        {errorMsg.name}
+                      </div>
+                    )
+                  }
+                </div>
 
+                <div className={classes.form_input}>
+                  <label htmlFor="last_name">Last name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    required={true}
+                    placeholder="Last name"
+                    autoComplete="off"
+                  />
+                  {
+                    errorMsg.lastname && (
+                      <div className={classes.error}>
+                        {errorMsg.lastname}
+                      </div>
+                    )
+                  }
+                </div>
+                <div className={classes.form_input}>
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    required={true}
+                    placeholder="Username"
+                    autoComplete="off"
+                  />
+                  {
+                    errorMsg.username && (
+                      <div className={classes.error}>
+                        {errorMsg.username}
+                      </div>
+                    )
+                  }
+                </div>
+                <div className={classes.form_input}>
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    required={true}
+                    placeholder="Password"
+                    autoComplete="off"
+                  />
+                  {
+                    errorMsg.password && (
+                      <div className={classes.error}>
+                        {errorMsg.password}
+                      </div>
+                    )
+                  }
+                </div>
+                
+                <div className={classes.form_input}>
+                  <Link href="/login">
+                    <a>Already have an account?</a>
+                  </Link>
+                </div>
+
+                <div className={classes.form_submit}>
+                  <div className={classes.button_box}>
+                    <button type="submit" title="Sign Up">
+                      <span>{ !loading ? "Sign Up" : <Loader /> }</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </main>
