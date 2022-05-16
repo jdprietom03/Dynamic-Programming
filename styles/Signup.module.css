@@ -11,11 +11,14 @@
 
 .container{
     display: flex;
-
+    justify-content: center;
+    align-items: center;
 }
 
 .content {
-
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
 }
 
 .signup {
@@ -23,9 +26,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    max-width: calc(100% - 40px);
     height: 100%;
     gap: 1.8rem;
+    background-color: var(--primary-dark-bg);
+    padding: 36px 20px;
 }
 
 .signup > * {
@@ -33,7 +38,7 @@
 }
 
 .title{
-
+    font-size: 1.4rem;
 }
 
 .description {
@@ -41,18 +46,25 @@
 }
 
 .form{
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
 }
 
 .form_input {
     display: flex;
-    flex-direction: column;
     gap: 4px;
+    flex-direction: column;
+    width: 100%;
 }
 
 .form_input input{
-    max-width: 280px;
-    padding: 8px 14px;
+    width: 100%;
+    padding: 12px 14px;
     outline: none;
     color: var(--primary-dark-color);
     background-color: var(--secondary-dark-bg);
