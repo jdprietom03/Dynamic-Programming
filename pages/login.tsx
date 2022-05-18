@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { gql, useMutation } from '@apollo/client'
 import { getErrorMessage } from '../lib/form'
+import DPCLogo from "./../icons/DPC-Logo.png"
+
 
 const SignUpMutation = gql`
   mutation SignUpMutation($username: String!, $password: String!, $name: String!, $last_name: String!, $email: String!) {
@@ -32,17 +34,12 @@ export default function LogIn() {
     const { elements } = currentTarget
     const usernameElement = elements.namedItem("username") as HTMLInputElement
     const passwordElement = elements.namedItem("password") as HTMLInputElement
-    const nameElement = elements.namedItem("name") as HTMLInputElement
-    const lastnameElement = elements.namedItem("lastname") as HTMLInputElement
 
     try {
         await signUp({
             variables: {
               username: usernameElement.value,
               password: passwordElement.value,
-              name: nameElement.value,
-              last_name: lastnameElement.value,
-              email: "",
         },
     })
     console.log("Accepted! Status 202")
@@ -60,11 +57,11 @@ export default function LogIn() {
 
         <meta
           name="description"
-          content="Sign up for the Dynamic Programming Coders platform."
+          content="Log in for the Dynamic Programming Coders platform."
         />
         <meta
           name="keywords"
-          content="sign up, platform, dynamic programming coders, competitive programming, register"
+          content="sign up, log in, platform, dynamic programming coders, competitive programming, register"
         />
         <meta name="robots" content="index, follow" />
 
@@ -119,10 +116,11 @@ export default function LogIn() {
               <div className={classes.form}>
               <form onSubmit={handleSubmit} className={classes.form}>
                     <div className={classes.form_input}>
-                      <label htmlFor="username">User</label>
+                      <label htmlFor="username"></label>
                       <input
                         type="text"
                         name="username"
+                        title=""
                         required={true}
                         pattern="[A-Za-z]+"
                         placeholder="User"
@@ -131,10 +129,11 @@ export default function LogIn() {
                       />
                     </div>
                     <div className={classes.form_input}>
-                      <label htmlFor="password">Password</label>
+                      <label htmlFor="password"></label>
                       <input
                         type="password"
                         name="password"
+                        title=""
                         required={true}
                         placeholder="Password"
                       />
@@ -148,11 +147,16 @@ export default function LogIn() {
                     </div>
                   </form>
               </div>
+              
+            </div>
+            <div className={classes.signUp}>
+              Don't have an account yet? &nbsp;
+              <Link className={classes.link} href="/signup">Sign Up</Link>
             </div>
           </div>
-          <div>
-              <img></img>
-          </div>
+        </div>
+        <div className={classes.images}>          
+          <img src="https://www.workbeyondcoding.com/img/2020/09/coding.webp" />
         </div>
       </main>
     </Fragment>
