@@ -36,7 +36,7 @@ export default function Problem() {
   if (typeof param === "string") {
     param = param;
   }else if (typeof param === "object") {
-    param = param[0];
+    param = param.join("");
   }
 
   return (
