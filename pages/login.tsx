@@ -32,20 +32,27 @@ const SignInMutation = gql`
   }
 `;
 
+interface ErrorMessage {
+  username?: string;
+  password?: string;
+  response?: string;
+}
+
 export default function LogIn() {
   const [signIn] = useMutation(SignInMutation);
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState<ErrorMessage>({});
   const client = useApolloClient();
   const router = useRouter();
   const { data, loading, error } = useQuery(ViewerQuery);
   const { viewer } = data || {};
   const shouldRedirect = !(loading || error || viewer); 
   useEffect(() => {
+    console.log(viewer)
     if(viewer) {
       router.push("/");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldRedirect]);
+  });
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -55,20 +62,42 @@ export default function LogIn() {
     const usernameElement = elements.namedItem("username") as HTMLInputElement;
     const passwordElement = elements.namedItem("password") as HTMLInputElement;
 
+    const validations: {[key: string]: string} = {};
+
+    const username = usernameElement.value;
+    const password = passwordElement.value;
+    //Math username only accept letters and numbers
+    const usernameRegex = /^[a-zA-Z0-9]+$/;
+    if (!usernameRegex.test(username)) 
+      validations["username"] = "Username must only contain letters and numbers";
+
+    //Password must have one symbol, one uppercase letter and numbers 
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    if (!passwordRegex.test(password))
+      validations["password"] = "Password must have at least 8 characters, one uppercase letter and one symbol";
+
+    if(Object.keys(validations).length > 0) {
+      setErrorMsg({ ...validations });
+      return;
+    }
+
     try {
-      await client.resetStore();
       const { data } = await signIn({
         variables: {
           username: usernameElement.value,
           password: passwordElement.value,
         },
-    });
+      });
+
       if (data.signIn.user) {
-        await router.push("/");
+        client.resetStore().then(() => {
+           router.push("/");
+        });
       }
     } catch (error) {
       console.log("Sending data ", getErrorMessage(error) );
-      setErrorMsg(getErrorMessage(error));
+      setErrorMsg({ response: getErrorMessage(error) });
     }
   };
 
@@ -134,6 +163,13 @@ export default function LogIn() {
                 <div className={classes.description}>
                   Access to DPC platform to improve your skills today.
                 </div>
+                 {
+                    errorMsg.response && (
+                      <div className={classes.error}>
+                        {errorMsg.response}
+                      </div>
+                    )
+                  }
               </div>
               <div className={classes.form}>
                 <form onSubmit={handleSubmit} className={classes.form}>
@@ -148,6 +184,13 @@ export default function LogIn() {
                       autoComplete="off"
                       autoFocus
                     />
+                     {
+                      errorMsg.username && (
+                        <div className={classes.error}>
+                          {errorMsg.username}
+                        </div>
+                      )
+                    }
                   </div>
                   <div className={classes.form_input}>
                     <label htmlFor="password"></label>
@@ -158,6 +201,13 @@ export default function LogIn() {
                       required={true}
                       placeholder="Password"
                     />
+                     {
+                      errorMsg.password && (
+                        <div className={classes.error}>
+                          {errorMsg.password}
+                        </div>
+                      )
+                    }
                   </div>
                   <div className={classes.button_box}>
                     <div className="button_box">

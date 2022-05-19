@@ -41,7 +41,7 @@ export const resolvers = {
                 return { user };
             }
 
-            throw new UserInputError('Invalid email and password combination');
+            throw new UserInputError('Incorrect username or password. Please try again.');
         },
         async signOut(_parent:any, args:any, context:any, _info:any) {
             removeTokenCookie(context.res);

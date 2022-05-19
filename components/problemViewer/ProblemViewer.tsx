@@ -36,20 +36,16 @@ function ProblemViewer({ id }: {id:number}) {
               <span className=""> Case {index + 1}</span>
               <div className={classes.input}>
                 {
-                  el.input.split("\n").map( (el:any) => {
-                    return <>
-                        <span key={el} className={classes.line}>{el}</span>
-                      </>
+                  el.input.split("\n").map( (el:any, key: any) => {
+                    return <span key={key} className={classes.line}>{el}</span>
                   })
                 }  
               </div>
               <span className="">Output</span>
               <div className={classes.output}>
               {
-                  el.output.split("\n").map( (el:any) => {
-                    return <>
-                        <span key={el} className={classes.line}>{el}</span>
-                      </>
+                  el.output.split("\n").map( (el:any, key: any) => {
+                    return <span key={key} className={classes.line}>{el}</span>
                   })
                 }   
               </div>

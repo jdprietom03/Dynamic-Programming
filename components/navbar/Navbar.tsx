@@ -1,6 +1,15 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Navbar() {
+  const router = useRouter()
+  const navlinksClasses = {
+    home: "item " + (router.pathname === "/" ? "active" : ""),
+    problems: "item " + (router.pathname === "/problems" ? "active" : ""),
+    contest : "item " + (router.pathname === "/contest" ? "active" : ""),
+    gym: "item " + (router.pathname === "/gym" ? "active" : ""),
+  }
+
   return (
     <nav className="nav">
       <div className="page-nav">
@@ -8,10 +17,10 @@ export default function Navbar() {
           <span>LOGO</span>
         </div>
         <div className="items">
-          <Link href="/"><button className="item">Home</button></Link>
-          <Link href="/problems"><button className="item active">Problems</button></Link>
-          <Link href="/contests"><button className="item">Contest</button></Link>
-          <Link href="/gyms"><button className="item">Gym</button></Link>
+          <Link href="/"><button className={navlinksClasses.home}>Home</button></Link>
+          <Link href="/problems"><button className={navlinksClasses.problems}>Problems</button></Link>
+          <Link href="/contests"><button className={navlinksClasses.contest}>Contest</button></Link>
+          <Link href="/gyms"><button className={navlinksClasses.gym}>Gym</button></Link>
         </div>
         <div className="tools">
           <div className="search">
