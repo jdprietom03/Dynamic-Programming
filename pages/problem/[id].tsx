@@ -31,10 +31,17 @@ export default function Problem() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRedirect]);
 
-  const id = router.query.id || "0";
+  let param = (router.query.id && router.query.id[0]) || router.query.id || "0";
+  //verify if param is array or string
+  if (typeof param === "string") {
+    param = param;
+  }else if (typeof param === "object") {
+    param = param[0];
+  }
+
   return (
     <div className="body">
-      {router.query.id && <ProblemViewer id={parseInt(id)} />}
+      {router.query.id && <ProblemViewer id={parseInt(param)} />}
       <Code />
     </div>
   );

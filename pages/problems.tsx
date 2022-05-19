@@ -23,7 +23,7 @@ const ProblemsSection: React.FC<{ problems: any }> = ({ problems }) => {
 
   return (
     <Fragment>
-      <Navbar active="problems"/>
+      <Navbar />
       <main>
         <div className="grid-template gd-col-4">
           <div className="gd-span-3">

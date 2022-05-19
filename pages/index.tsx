@@ -50,7 +50,7 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
 
   return (
     <Fragment>
-      <Navbar active="home"/>
+      <Navbar/>
       <main>
         <div className="grid-template gd-col-3">
           <EventsViewer />
