@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { gql, useMutation } from '@apollo/client'
 import { getErrorMessage } from '../lib/form'
-import DPCLogo from "./../icons/DPC-Logo.png"
 
 
 const SignUpMutation = gql`
@@ -154,9 +153,6 @@ export default function LogIn() {
               <Link className={classes.link} href="/signup">Sign Up</Link>
             </div>
           </div>
-        </div>
-        <div className={classes.images}>          
-          <img src="https://www.workbeyondcoding.com/img/2020/09/coding.webp" />
         </div>
       </main>
     </Fragment>
