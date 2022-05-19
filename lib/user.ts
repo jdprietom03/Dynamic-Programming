@@ -23,9 +23,9 @@ export async function createUser({ username, password, name, last_name, email }:
        //Use API to create user
         const response = await axios.post(`${process.env.API_ROUTE}/user/create`, user);
         //Cors
-        // response.headers['Access-Control-Allow-Origin'] = '*'; 
-        // response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
-        // response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Content-Length, X-Requested-With';
+        response.headers['Access-Control-Allow-Origin'] = '*'; 
+        response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Content-Length, X-Requested-With';
 
     } catch ( error ) {
         console.log( error );
