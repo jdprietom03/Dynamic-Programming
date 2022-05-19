@@ -10,7 +10,7 @@ export const resolvers = {
             try {
                 const session = await getLoginSession(context.req);
                 if (session) {
-                    return findUser({ username: session.username });
+                    return findUser({ username: session.user_name });
                 }
             } catch (error) {
                 throw new AuthenticationError(
@@ -27,16 +27,16 @@ export const resolvers = {
         },
         async signIn(_parent:any, args:any, context:any, _info:any) {
             const user = await findUser({ username: args.input.username });
+            
             if (user && (await validatePassword(user, args.input.password))) {
                 const session = {
                     //id: user.id,
-                    username: user.username,
+                    user_name: user.user_name,
                     //typeUser: user.typeUser,
                     name: user.name,
                     last_name: user.last_name,
                     email: user.email,
                 };
-                
                 await setLoginSession(context.res, session);
                 return { user };
             }

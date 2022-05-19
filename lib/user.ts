@@ -38,17 +38,17 @@ export async function createUser({ username, password, name, last_name, email }:
 export async function findUser({ username }:{ username: string }) {
     try {
         interface User{
-            username: string;
+            user_name: string;
             email: string;
             name: string;
             last_name: string;
-            // typeUser: string;
-            // id: string;
+            password: string;
+            salt: string | null;
         }
         //Use api to find user
-        // const response = await axios.post(`${process.env.API_ROUTE}/user/create`, user);
+        const response = await axios.get(`${process.env.API_ROUTE}/user/getbyid/${username}`);
         // return response.data;
-        return {} as User;
+        return response.data as User;
     } catch (error) {
         console.log(error);
     }
@@ -58,8 +58,8 @@ export async function findUser({ username }:{ username: string }) {
 // password for a potential match
 export async function validatePassword(user: any, inputPassword: string) {
     const inputHash = crypto
-        .pbkdf2Sync(inputPassword, user.salt, 1000, 64, 'sha512')
+        .pbkdf2Sync(inputPassword, user.email, 1000, 64, 'sha512')
         .toString('hex');
-    const passwordsMatch = user.hash === inputHash;
+    const passwordsMatch = user.password === inputHash;
     return passwordsMatch;
 }
