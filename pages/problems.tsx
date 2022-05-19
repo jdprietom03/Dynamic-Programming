@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import axios from "axios";
 import { GetServerSideProps } from "next";
+import { env } from "process";
 
 import Navbar from "./../components/navbar/Navbar";
 import EventsViewer from "../components/eventsViewer/EventsViewer";
@@ -38,7 +39,7 @@ const ProblemsSection: React.FC<{ problems: any }> = ({ problems }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   //Do get to get the data in API route problems
-  const res = await axios.get("http://localhost:3000/api/problems/all");
+  const res = await axios.get(`${env.PUBLIC_URL}/api/problems/all`);
   const problems = res.data.list;
   return { props: { problems } };
 };

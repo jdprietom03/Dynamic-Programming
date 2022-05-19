@@ -178,13 +178,6 @@ export default function LogIn() {
             </div>
           </div>
         </div>
-        <div className={classes.images}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://www.workbeyondcoding.com/img/2020/09/coding.webp"
-            alt="background"
-          />
-        </div>
       </main>
     </Fragment>
   );

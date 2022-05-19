@@ -75,7 +75,7 @@ export default function SignUp() {
     if (!nameRegex.test(name))
       validations["name"] = "Name must only contain letters";
     if(!nameRegex.test(lastname))
-      validations["last_name"] = "Last name must only contain letters";
+      validations["lastname"] = "Last name must only contain letters";
 
     //Password must have one symbol, one uppercase letter and numbers 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
