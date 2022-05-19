@@ -173,7 +173,7 @@ export default function LogIn() {
             <div className={classes.signUp}>
               Don&apos;t have an account yet? &nbsp;
               <Link className={classes.link} href="/signup">
-                Log In
+                Sign up
               </Link>
             </div>
           </div>
