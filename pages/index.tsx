@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 
 import Navbar from "./../components/navbar/Navbar";
 import EventsViewer from "../components/eventsViewer/EventsViewer";
+import TopicsMenu from "../components/topicsMenu/TopicsMenu";
 
 import { useQuery, gql } from "@apollo/client";
 import { useEffect } from 'react'
@@ -27,6 +28,7 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
   const shouldRedirect = !(loading || error || viewer); 
   const router = useRouter();
 
+  console.log(data);
   useEffect(() => {
     if(!viewer) {
       router.push("/login");
@@ -53,7 +55,32 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
       <Navbar/>
       <main>
         <div className="grid-template gd-col-3">
-          <EventsViewer />
+          <div className="home-container">
+            <EventsViewer />
+            <div className="welcome-container">
+              <div className="icon-profile"></div>
+              <br/>
+              <h1>Welcome, user</h1>
+              <p className="topics-description">You have solved 0 problems this week</p>
+            </div>
+            <div className="news-container">
+              <div className="gd-span-1">
+      <div className="card">
+        <div className="card-header">
+          <span className="title">News</span>
+          <span className="subtitle">20/05/2022</span>
+        </div>
+        <div className="card-image"></div>
+        <div className="card-body">
+          <div className="description">There is nothing new today</div>
+          
+        </div>
+      </div>
+    </div>
+            </div>
+          </div>          
+          <br/>
+          <TopicsMenu />
         </div>
       </main>
     </Fragment>
