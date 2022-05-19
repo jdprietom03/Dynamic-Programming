@@ -47,7 +47,7 @@ export default function SignUp() {
   const [signUp] = useMutation(SignUpMutation);
   const [errorMsg, setErrorMsg] = useState<ErrorMessage>({});
   const [loading, setLoading] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -101,7 +101,7 @@ export default function SignUp() {
       });
 
       if (response.data.signUp.user) {
-        // router.push("/");
+        router.push("/login");
         console.log("User created: ", response.data.signUp.user);
         setLoading(false);
         return;
