@@ -31,7 +31,7 @@ export default function Problem() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRedirect]);
 
-  let param = (router.query.id && router.query.id[0]) || router.query.id || "0";
+  let param =  router.query.id || "0";
   //verify if param is array or string
   if (typeof param === "string") {
     param = param;
