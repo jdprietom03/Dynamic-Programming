@@ -1,11 +1,15 @@
 import classes from "./pviewer.module.css";
 import React from 'react';
 import problemSet from './problem_set.json';
+import LoaderPage from "../loader/LoaderPage";
 
 function ProblemViewer({ id }: {id:number}) {
   const data = require(`../../public/dataset/${id}/${id}.json`);
   const problem = data[id];
-  console.log(problem)
+  
+  if(!data){
+    return <LoaderPage />
+  }
   
   return (
     <div className={classes.problem_viewer}>

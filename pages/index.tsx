@@ -9,6 +9,7 @@ import TopicsMenu from "../components/topicsMenu/TopicsMenu";
 import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import LoaderPage from "../components/loader/LoaderPage";
 
 
 const ViewerQuery = gql`
@@ -45,7 +46,7 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
   });
 
   if(loading || !viewer) {
-    return <div> Loading... </div>
+    return <LoaderPage />
   }
 
   const handleLogout = async () => {
