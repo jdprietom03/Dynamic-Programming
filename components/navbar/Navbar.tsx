@@ -1,13 +1,22 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useState } from 'react';
 
 export default function Navbar() {
   const router = useRouter()
+  const [search, setSearch] = useState('')
+
   const navlinksClasses = {
     home: "item " + (router.pathname === "/" ? "active" : ""),
     problems: "item " + (router.pathname === "/problems" ? "active" : ""),
     contest : "item " + (router.pathname === "/contest" ? "active" : ""),
     gym: "item " + (router.pathname === "/gym" ? "active" : ""),
+  }
+
+  const handleSearch = () => {
+    if(search.length > 0){
+      router.push(`/problem/search/q=${search}`)
+    }
   }
 
   return (
@@ -42,7 +51,12 @@ export default function Navbar() {
                 </svg>
               </span>
             </div>
-            <input type="text" name="search" placeholder="Search a problem" />
+            <input type="text" name="search" placeholder="Search a problem" onChange={(e) => setSearch(e.target.value)} onKeyDown={
+              (e) => { 
+                if(e.key === 'Enter')
+                  handleSearch()
+              }
+            }/>
           </div>
           <div className="profile">
             <div className="icon"></div>
