@@ -144,7 +144,6 @@ export default function LogIn() {
                       name="username"
                       title=""
                       required={true}
-                      pattern="[A-Za-z]+"
                       placeholder="User"
                       autoComplete="off"
                       autoFocus
