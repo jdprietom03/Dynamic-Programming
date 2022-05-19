@@ -470,16 +470,26 @@ div {
 
 .welcome-container{
   align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .icon-profile{
-  transform: translateX(25%);
-  width: 180px;
-  height: 180px;
   border-radius: 50%;
   background-image: url('https://www.workbeyondcoding.com/img/2020/09/coding.webp');
   background-size:cover;
+  width: 180px;
+  height: 180px;
 }
+
+.profile-image-container{
+  object-fit: contain;
+  width: 180px;
+  height: 180px;
+}
+
 
 /*Styles for TopicsMenu*/
 .topics-title{
