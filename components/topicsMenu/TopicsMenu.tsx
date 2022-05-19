@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 function TopicsMenu() {
     const topics = ['Math', 'Greedy', 'Implementation', 'Graph', 'Sortings', 'DP', 'Trees', 'Brute force'];
 
-    const handleFilter = (e) => {
+    const handleFilter = (e:any) => {
       e.preventDefault()
       console.log(`Se presionó ${e.target.value}`)
     }
@@ -16,11 +16,11 @@ function TopicsMenu() {
         <div className="topics">
           {
             topics.map((topic, key) => {
-              return <div className='topic'><button
+              return <div className='topic' key = {key}><button
                   onClick = {handleFilter}
                   value={topic}
                   name="topic"
-                  key = {key}>
+                  >
                   {topic}</button></div>
             })
           }

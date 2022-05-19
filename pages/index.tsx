@@ -7,34 +7,39 @@ import EventsViewer from "../components/eventsViewer/EventsViewer";
 import TopicsMenu from "../components/topicsMenu/TopicsMenu";
 
 import { useQuery, gql } from "@apollo/client";
-import { useEffect } from 'react'
-import { useRouter } from 'next/router';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const ViewerQuery = gql`
   query ViewerQuery {
     viewer {
-        user_name
-        name
-        last_name
-        email
+      user_name
+      name
+      last_name
+      email
     }
   }
 `;
 
 const Home: React.FC<{ problems: any }> = ({ problems }) => {
-
   const { data, loading, error } = useQuery(ViewerQuery);
   const { viewer } = data || {};
-  const shouldRedirect = !(loading || error || viewer); 
+  const shouldRedirect = !(loading || error || viewer);
   const router = useRouter();
 
-  console.log(data);
+  
+
   useEffect(() => {
-    if(!viewer) {
+    if (!viewer && !loading) {
       router.push("/login");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log(viewer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldRedirect]);
+
+  if(loading) {
+    return <div> Loading... </div>
+  }
 
   const addProblem = () => {
     axios
@@ -52,34 +57,39 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
 
   return (
     <Fragment>
-      <Navbar/>
+      <Navbar />
       <main>
         <div className="grid-template gd-col-3">
           <div className="home-container">
             <EventsViewer />
             <div className="welcome-container">
-              <div className="icon-profile"></div>
-              <br/>
-              <h1>Welcome, user</h1>
-              <p className="topics-description">You have solved 0 problems this week</p>
+              <div className="profile-image-container">
+                <div className="icon-profile"></div>
+              </div>
+              <br />
+              <h1>Welcome, {viewer.name} {viewer.last_name}</h1>
+              <p className="topics-description">
+                You have solved 0 problems this week
+              </p>
             </div>
             <div className="news-container">
               <div className="gd-span-1">
-      <div className="card">
-        <div className="card-header">
-          <span className="title">News</span>
-          <span className="subtitle">20/05/2022</span>
-        </div>
-        <div className="card-image"></div>
-        <div className="card-body">
-          <div className="description">There is nothing new today</div>
-          
-        </div>
-      </div>
-    </div>
+                <div className="card">
+                  <div className="card-header">
+                    <span className="title">News</span>
+                    <span className="subtitle">20/05/2022</span>
+                  </div>
+                  <div className="card-image"></div>
+                  <div className="card-body">
+                    <div className="description">
+                      There is nothing new today
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>          
-          <br/>
+          </div>
+          <br />
           <TopicsMenu />
         </div>
       </main>
