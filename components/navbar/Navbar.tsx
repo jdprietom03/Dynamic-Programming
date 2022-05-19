@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Navbar() {
   return (
     <nav className="nav">
@@ -6,10 +8,10 @@ export default function Navbar() {
           <span>LOGO</span>
         </div>
         <div className="items">
-          <div className="item">Home</div>
-          <div className="item active">Problems</div>
-          <div className="item">Contest</div>
-          <div className="item">Gym</div>
+          <Link href="/"><button className="item">Home</button></Link>
+          <Link href="/problems"><button className="item active">Problems</button></Link>
+          <Link href="/contests"><button className="item">Contest</button></Link>
+          <Link href="/gyms"><button className="item">Gym</button></Link>
         </div>
         <div className="tools">
           <div className="search">

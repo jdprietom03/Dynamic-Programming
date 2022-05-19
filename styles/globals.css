@@ -56,6 +56,10 @@ NAV  CLASSES
 .nav .items .item {
   cursor: pointer;
   padding: 1rem 1.4rem;
+  background-color: transparent;
+  border: transparent;
+  font: inherit;
+  color: inherit;
 }
 
 .nav .item.active,
