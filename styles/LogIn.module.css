@@ -4,6 +4,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-size: cover;
+    background-image: url('https://www.workbeyondcoding.com/img/2020/09/coding.webp');
 }
 
 @keyframes slideUpToDown {
@@ -53,9 +55,6 @@
     width: 100%;
 }
 
-.title{
-
-}
 
 .description {
     text-align: center;
@@ -129,20 +128,4 @@
     text-shadow: 0 0 8px rgba(57, 151, 186, 0.5);
 }
 
-@media (max-width: 700px) {
-    .main{
-        background-image: url('https://www.workbeyondcoding.com/img/2020/09/coding.webp');
-    }
-    .images{
-        opacity: 0%;
-        position: absolute;
-        z-index: -1;
-    }
-}
-
-.images img{
-    height: 99vh;
-    border-radius: 0;
-    width: 70vw;
-}
 
