@@ -6,9 +6,11 @@ import Navbar from "./../components/navbar/Navbar";
 import EventsViewer from "../components/eventsViewer/EventsViewer";
 import TopicsMenu from "../components/topicsMenu/TopicsMenu";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation, useApolloClient } from "@apollo/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import LoaderPage from "../components/loader/LoaderPage";
+
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -21,24 +23,42 @@ const ViewerQuery = gql`
   }
 `;
 
+const SignOutMutation = gql`
+  mutation SignOutMutation{
+    signOut
+  }
+`;
+
 const Home: React.FC<{ problems: any }> = ({ problems }) => {
   const { data, loading, error } = useQuery(ViewerQuery);
   const { viewer } = data || {};
   const shouldRedirect = !(loading || error || viewer);
+  const client = useApolloClient()
   const router = useRouter();
-
-  
+  const [signOut] = useMutation(SignOutMutation);
 
   useEffect(() => {
-    if (!viewer && !loading) {
+    if (shouldRedirect) {
       router.push("/login");
     }
     console.log(viewer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shouldRedirect]);
+  });
 
-  if(loading) {
-    return <div> Loading... </div>
+  if(loading || !viewer) {
+    return <LoaderPage />
+  }
+
+  const handleLogout = async () => {
+    try{
+      signOut().then(() => {
+        client.resetStore().then(() => {
+          router.push("/login");
+        });
+      });
+    }catch(error){
+      console.log(error);
+    }
   }
 
   const addProblem = () => {
@@ -71,6 +91,9 @@ const Home: React.FC<{ problems: any }> = ({ problems }) => {
               <p className="topics-description">
                 You have solved 0 problems this week
               </p>
+              <button className="btn-primary" onClick={handleLogout}>
+                Log out
+              </button>
             </div>
             <div className="news-container">
               <div className="gd-span-1">

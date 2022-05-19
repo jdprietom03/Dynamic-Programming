@@ -15,6 +15,7 @@ export function setTokenCookie(res:any, token:any) {
   })
 
   res.setHeader('Set-Cookie', cookie)
+  //console.log(res.getHeader('Set-Cookie'))
 }
 
 export function removeTokenCookie(res:any) {
@@ -24,6 +25,7 @@ export function removeTokenCookie(res:any) {
   })
 
   res.setHeader('Set-Cookie', cookie)
+  //console.log(res.getHeader('Set-Cookie'))
 }
 
 export function parseCookies(req:any) {
@@ -37,5 +39,6 @@ export function parseCookies(req:any) {
 
 export function getTokenCookie(req:any) {
   const cookies = parseCookies(req)
+  //console.log(cookies)
   return cookies[TOKEN_NAME]
 }

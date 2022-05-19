@@ -29,6 +29,20 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  .work_place::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+    background-color: rgba(25, 25, 66, 0.6);
+  }
+  
+  
+  .work_place::-webkit-scrollbar-thumb {
+    width: 6px;
+    background-color: rgba(50, 45, 85, 0.7);
+    border-radius: 8px;
+  }
+  
   
   .editor {
     z-index: 4;

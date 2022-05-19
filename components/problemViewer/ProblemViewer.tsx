@@ -1,11 +1,15 @@
 import classes from "./pviewer.module.css";
 import React from 'react';
 import problemSet from './problem_set.json';
+import LoaderPage from "../loader/LoaderPage";
 
 function ProblemViewer({ id }: {id:number}) {
   const data = require(`../../public/dataset/${id}/${id}.json`);
   const problem = data[id];
-  console.log(problem)
+  
+  if(!data){
+    return <LoaderPage />
+  }
   
   return (
     <div className={classes.problem_viewer}>
@@ -36,20 +40,16 @@ function ProblemViewer({ id }: {id:number}) {
               <span className=""> Case {index + 1}</span>
               <div className={classes.input}>
                 {
-                  el.input.split("\n").map( (el:any) => {
-                    return <>
-                        <span key={el} className={classes.line}>{el}</span>
-                      </>
+                  el.input.split("\n").map( (el:any, key: any) => {
+                    return <span key={key} className={classes.line}>{el}</span>
                   })
                 }  
               </div>
               <span className="">Output</span>
               <div className={classes.output}>
               {
-                  el.output.split("\n").map( (el:any) => {
-                    return <>
-                        <span key={el} className={classes.line}>{el}</span>
-                      </>
+                  el.output.split("\n").map( (el:any, key: any) => {
+                    return <span key={key} className={classes.line}>{el}</span>
                   })
                 }   
               </div>

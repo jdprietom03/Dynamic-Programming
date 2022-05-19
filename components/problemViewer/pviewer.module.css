@@ -23,14 +23,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .problem_viewer {
   font-family: 'Urbanist', sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow-y: scroll;
   border-right: 1px solid rgb(50, 45, 85);
   padding: 2rem 1.4rem;

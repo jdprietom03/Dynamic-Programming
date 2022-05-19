@@ -127,3 +127,11 @@
     color: rgb(57, 151, 186);
     text-shadow: 0 0 8px rgba(57, 151, 186, 0.5);
 }
+
+.error {
+    color: var(--error-color);
+    max-width: 350px;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    display: flex;
+}

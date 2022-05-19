@@ -3,6 +3,7 @@ import ProblemViewer from "../../components/problemViewer/ProblemViewer";
 import { useQuery, gql } from "@apollo/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Navbar from "../../components/navbar/Navbar";
 
 const ViewerQuery = gql`
   query ViewerQuery {
@@ -40,9 +41,12 @@ export default function Problem() {
   }
 
   return (
-    <div className="body">
-      {router.query.id && <ProblemViewer id={parseInt(param)} />}
-      <Code />
-    </div>
+    <main className="main"> 
+      <Navbar />
+      <div className="body">
+        {router.query.id && <ProblemViewer id={parseInt(param)} />}
+        <Code />
+      </div>
+    </main>
   );
 }

@@ -453,7 +453,7 @@ section div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 51px);
 }
 
 div {
@@ -474,6 +474,7 @@ div {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: .4rem;
 }
 
 .icon-profile{
@@ -541,5 +542,16 @@ div {
   }
 }
 .topic button:hover{
+  background-color: var(--secondary-dark-bg-hover);
+}
+
+.btn-primary{
+  background-color: var(--secondary-dark-bg);
+  color: var(--primary-dark-text);
+  border: 1px solid var(--primary-dark-bg);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.btn-primary:hover{
   background-color: var(--secondary-dark-bg-hover);
 }

@@ -6,6 +6,7 @@ import { env } from "process";
 import Navbar from "./../components/navbar/Navbar";
 import EventsViewer from "../components/eventsViewer/EventsViewer";
 import ProblemSetTable from "../components/problemSet/ProblemSetTable";
+import LoaderPage from "../components/loader/LoaderPage";
 
 const ProblemsSection: React.FC<{ problems: any }> = ({ problems }) => {
   const addProblem = () => {
@@ -21,6 +22,10 @@ const ProblemsSection: React.FC<{ problems: any }> = ({ problems }) => {
         console.log(res);
       });
   };
+
+  if(!problems){
+    return <LoaderPage />
+  }
 
   return (
     <Fragment>
